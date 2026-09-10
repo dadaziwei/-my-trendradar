@@ -270,6 +270,7 @@ def _load_ai_config(config_data: Dict) -> Dict:
         # LiteLLM 高级选项
         "NUM_RETRIES": ai_config.get("num_retries", 2),
         "FALLBACK_MODELS": ai_config.get("fallback_models", []),
+        "EXTRA_HEADERS": ai_config.get("extra_headers", {}),
         "EXTRA_PARAMS": ai_config.get("extra_params", {}),
     }
 

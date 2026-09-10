@@ -175,7 +175,7 @@ report:
 # 4.5 筛选策略
 # ===============================================================
 filter:
-  method: "keyword"                     # 筛选方式（二选一）
+  method: "ai"                     # 筛选方式（二选一）
                                        # keyword = 关键词匹配，不调用 AI，不消耗 token，但规则固定
                                        #           词组定义在 config/frequency_words.txt
                                        # ai = AI 智能分类，更灵活但每次运行消耗 token
@@ -363,11 +363,16 @@ ai:
   # 完整列表: https://docs.litellm.ai/docs/providers
   # 如果你对于看英文文档比较头疼，那么可以点击页面右下角的 【Ask AI】 ,用中文询问怎么配置
 
-  model: "deepseek/deepseek-v4-flash"
+  model: "openai/deepseek-v4-flash"   # OpenCode Go (Zen) 端点：openai/ 前缀 + 下方 api_base
+
+  # 自定义请求头（OpenCode Go 端点必需，勿删）
+  extra_headers:
+    x-opencode-session: "trendradar-dadaziwei-gh"
+    User-Agent: "trendradar-dadaziwei/1.0"
 
   api_key: ""                       # API Key（建议使用环境变量 AI_API_KEY）
   
-  api_base: ""                      # 自定义 API 地址（可选，绝大多数情况留空即可）
+  api_base: "https://opencode.ai/zen/go/v1"   # OpenCode Go (Zen) 端点
                                     #
                                     # ❓ 什么时候需要填？
                                     #    当你使用的 AI 服务商不在上方支持列表中时。

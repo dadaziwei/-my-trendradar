@@ -38,6 +38,7 @@ class AIClient:
         self.timeout = config.get("TIMEOUT", 120)
         self.num_retries = config.get("NUM_RETRIES", 2)
         self.fallback_models = config.get("FALLBACK_MODELS", [])
+        self.extra_headers = config.get("EXTRA_HEADERS", {}) or {}
 
     def chat(
         self,
@@ -73,6 +74,10 @@ class AIClient:
         # 添加 API Base（如果配置了）
         if self.api_base:
             params["api_base"] = self.api_base
+
+        # 添加自定义请求头（如 OpenCode Go 需要 x-opencode-session）
+        if self.extra_headers:
+            params["extra_headers"] = self.extra_headers
 
         # 添加 max_tokens（如果配置了且不为 0）
         max_tokens = kwargs.get("max_tokens", self.max_tokens)
