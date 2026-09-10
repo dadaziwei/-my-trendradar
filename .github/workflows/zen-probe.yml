@@ -1,0 +1,22 @@
+name: zen-api-probe
+on:
+  workflow_dispatch:
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Probe zen models from runner
+        env:
+          KEY: ${{ secrets.AI_API_KEY }}
+        run: |
+          H=(-H "Authorization: Bearer $KEY" -H "Content-Type: application/json" -H "x-opencode-session: runner-probe" -H "User-Agent: runner-probe/1.0")
+          echo "== muse-spark-1.3-contributor =="
+          curl -s --max-time 90 "${H[@]}" -d '{"model":"muse-spark-1.3-contributor","messages":[{"role":"user","content":"Reply with exactly: OK"}],"max_tokens":50}' https://opencode.ai/zen/go/v1/chat/completions | head -c 500
+          echo
+          echo "== deepseek-v4-flash + reasoning_effort none =="
+          curl -s --max-time 90 "${H[@]}" -d '{"model":"deepseek-v4-flash","messages":[{"role":"user","content":"Reply with exactly: OK"}],"max_tokens":50,"reasoning_effort":"none"}' https://opencode.ai/zen/go/v1/chat/completions | head -c 500
+          echo
+          echo "== glm-5.3-flash =="
+          curl -s --max-time 90 "${H[@]}" -d '{"model":"glm-5.3-flash","messages":[{"role":"user","content":"Reply with exactly: OK"}],"max_tokens":50}' https://opencode.ai/zen/go/v1/chat/completions | head -c 500
+          echo
